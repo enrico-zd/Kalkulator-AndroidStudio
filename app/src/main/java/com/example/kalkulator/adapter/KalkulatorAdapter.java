@@ -1,12 +1,16 @@
 package com.example.kalkulator.adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.Build;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -39,7 +43,20 @@ public class KalkulatorAdapter extends RecyclerView.Adapter<KalkulatorAdapter.Vi
         holder.txtAngka2.setText(kalkulator.getAngka2());
         holder.txtHasil.setText(kalkulator.getHasil());
         holder.txtOperasi.setText(kalkulator.getOperasi());
+
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                int newPosition = holder.getAdapterPosition();
+                listHasil.remove(newPosition);
+                notifyItemRemoved(newPosition);
+                notifyItemRangeChanged(newPosition, listHasil.size());
+
+                return false;
+            }
+        });
     }
+
 
     @Override
     public int getItemCount() {
